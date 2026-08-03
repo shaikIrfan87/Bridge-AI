@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connection Test - Skill Assessment System</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .test-section {
+            margin-bottom: 30px;
+        }
+
+        .test-section h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .dot-success {
+            background: #28a745;
+        }
+
+        .dot-error {
+            background: #dc3545;
+        }
+
+        .dot-pending {
+            background: #ffc107;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .info-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .info-label {
+            font-size: 0.85rem;
+            color: #666;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            color: #333;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .test-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .test-button:active {
+            transform: translateY(0);
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin-top: 15px;
+        }
+
+        .json-key {
+            color: #9cdcfe;
+        }
+
+        .json-string {
+            color: #ce9178;
+        }
+
+        .json-number {
+            color: #b5cea8;
+        }
+
+        .json-boolean {
+            color: #569cd6;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: #764ba2;
+        }
+
+        .endpoint-list {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .endpoint-list li {
+            padding: 10px;
+            background: #f8f9fa;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .endpoint-list a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .endpoint-list a:hover {
+            text-decoration: underline;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 3px solid rgba(255, 255, 255, .3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>🔗 Connection Test</h1>
+            <p class="subtitle">Backend-Frontend Integration Status</p>
+
+            <!-- Overall Status -->
+            <div class="test-section">
+                <h2>
+                    Overall Status
+                    <span id="overall-status" class="status-badge status-pending">
+                        <span class="dot dot-pending"></span>
+                        Testing...
+                    </span>
+                </h2>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="test-section">
+                <button class="test-button" onclick="runAllTests()">🔄 Run All Tests</button>
+                <button class="test-button" onclick="testHealth()">❤️ Test Health</button>
+                <button class="test-button" onclick="testConnection()">🔗 Test Connection</button>
+                <button class="test-button" onclick="testCORS()">🌐 Test CORS</button>
+            </div>
+
+            <!-- Backend Info -->
+            <div class="test-section">
+                <h2>Backend Information</h2>
+                <div class="info-grid" id="backend-info">
+                    <div class="info-item">
+                        <div class="info-label">Status</div>
+                        <div class="info-value" id="backend-status">Checking...</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Version</div>
+                        <div class="info-value" id="backend-version">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Port</div>
+                        <div class="info-value" id="backend-port">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Python</div>
+                        <div class="info-value" id="python-version">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Available Endpoints -->
+            <div class="test-section">
+                <h2>Available Endpoints</h2>
+                <ul class="endpoint-list">
+                    <li><a href="/api/v1/health" target="_blank">GET /api/v1/health</a> - Health check</li>
+                    <li><a href="/api/v1/connection-test" target="_blank">GET /api/v1/connection-test</a> - Connection
+                        test</li>
+                    <li><a href="/api/v1/test-cors" target="_blank">GET /api/v1/test-cors</a> - CORS test</li>
+                    <li><a href="/api/v1/ping" target="_blank">GET /api/v1/ping</a> - Simple ping</li>
+                    <li><a href="/docs" target="_blank">GET /docs</a> - API Documentation</li>
+                </ul>
+            </div>
+
+            <!-- Response Preview -->
+            <div class="test-section">
+                <h2>Latest Response</h2>
+                <div class="code-block" id="response-preview">Click a test button to see the response...</div>
+            </div>
+
+            <a href="/" class="back-link">← Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:19440/api/v1';
+
+        // Format JSON for display
+        function formatJSON(obj) {
+            return JSON.stringify(obj, null, 2)
+                .replace(/"([^"]+)":/g, '<span class="json-key">"$1"</span>:')
+                .replace(/: "([^"]+)"/g, ': <span class="json-string">"$1"</span>')
+                .replace(/: (\d+)/g, ': <span class="json-number">$1</span>')
+                .replace(/: (true|false)/g, ': <span class="json-boolean">$1</span>');
+        }
+
+        // Update overall status
+        function updateOverallStatus(success) {
+            const badge = document.getElementById('overall-status');
+            if (success) {
+                badge.className = 'status-badge status-success';
+                badge.innerHTML = '<span class="dot dot-success"></span> Connected ✓';
+            } else {
+                badge.className = 'status-badge status-error';
+                badge.innerHTML = '<span class="dot dot-error"></span> Connection Failed';
+            }
+        }
+
+        // Test health endpoint
+        async function testHealth() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/health`);
+                const data = await response.json();
+                document.getElementById('response-preview').innerHTML = formatJSON(data);
+
+                document.getElementById('backend-status').textContent = data.status;
+                document.getElementById('backend-version').textContent = data.version;
+
+                updateOverallStatus(true);
+                return true;
+            } catch (error) {
+                document.getElementById('response-preview').innerHTML =
+                    `<span style="color: #f48771;">Error: ${error.message}</span>`;
+                document.getElementById('backend-status').textContent = 'Error';
+                updateOverallStatus(false);
+                return false;
+            }
+        }
+
+        // Test connection endpoint
+        async function testConnection() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/connection-test`);
+                const data = await response.json();
+                document.getElementById('response-preview').innerHTML = formatJSON(data);
+
+                // Update backend info
+                if (data.backend) {
+                    document.getElementById('backend-version').textContent = data.backend.version;
+                    document.getElementById('backend-port').textContent = data.backend.port;
+                    document.getElementById('python-version').textContent = data.backend.python_version;
+                }
+
+                updateOverallStatus(true);
+                return true;
+            } catch (error) {
+                document.getElementById('response-preview').innerHTML =
+                    `<span style="color: #f48771;">Error: ${error.message}</span>`;
+                updateOverallStatus(false);
+                return false;
+            }
+        }
+
+        // Test CORS
+        async function testCORS() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/test-cors`);
+                const data = await response.json();
+                document.getElementById('response-preview').innerHTML = formatJSON(data);
+                return true;
+            } catch (error) {
+                document.getElementById('response-preview').innerHTML =
+                    `<span style="color: #f48771;">CORS Error: ${error.message}</span>`;
+                return false;
+            }
+        }
+
+        // Run all tests
+        async function runAllTests() {
+            console.log('Running all tests...');
+            await testHealth();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            await testConnection();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            await testCORS();
+        }
+
+        // Auto-run tests on page load
+        window.addEventListener('load', () => {
+            setTimeout(runAllTests, 500);
+        });
+    </script>
+</body>
+
+</html>

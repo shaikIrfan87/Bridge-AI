@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Assessment System - AI-Powered Candidate Evaluation</title>
+    <meta name="description" content="Modern skill assessment platform powered by AI. Evaluate candidates through resume analysis, adaptive quizzes, and coding challenges.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/reset.css?v=2.0">
+    <link rel="stylesheet" href="css/design-system.css?v=2.0">
+    <link rel="stylesheet" href="css/components.css?v=2.0">
+    <link rel="stylesheet" href="css/pages.css?v=2.0">
+    <link rel="stylesheet" href="css/coding-ide.css?v=1.0">
+    
+    <!-- Monaco Editor -->
+    <link rel="stylesheet" data-name="vs/editor/editor.main" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/editor/editor.main.min.css">
+    
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js"></script>
+</head>
+<body>
+    <!-- Three.js Background Canvas -->
+    <canvas id="bg-canvas"></canvas>
+    
+    <!-- Main Container -->
+    <div class="app-container">
+        <!-- Navigation -->
+        <nav class="navbar glass-effect">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <div class="brand-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+                        </svg>
+                    </div>
+                    <h1 class="brand-text">Skill<span class="brand-accent">Assess</span></h1>
+                </div>
+                
+                <ul class="nav-links">
+                    <li><a href="#home" class="nav-link active">Home</a></li>
+                    <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+                    <li><a href="#features" class="nav-link">Features</a></li>
+                </ul>
+                
+                <button class="btn btn-primary" id="start-assessment-btn">
+                    Start Assessment
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+        
+        <!-- Token Warning Alert -->
+        <div id="token-warning" class="alert alert-warning hidden" style="
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: linear-gradient(135deg, #ff9800 0%, #ff6b6b 100%);
+            color: white;
+            padding: 12px 24px;
+            text-align: center;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            margin: 0;
+        ">
+            ⏱ Session expires soon. Submit your answers before expiry.
+        </div>
+        
+        <!-- Hero Section -->
+        <section id="home" class="hero-section">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    AI-Powered Evaluation
+                </div>
+                
+                <h1 class="hero-title">
+                    Revolutionize Your
+                    <span class="gradient-text">Hiring Process</span>
+                </h1>
+                
+                <p class="hero-description">
+                    Advanced skill assessment powered by Google Gemini AI. 
+                    Automated resume analysis, adaptive quizzing, and sandboxed code evaluation 
+                    to find the perfect candidates.
+                </p>
+                
+                <div class="hero-actions">
+                    <button class="btn btn-primary btn-large" id="upload-resume-btn">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                        </svg>
+                        Upload Resume
+                    </button>
+                    
+                    <button class="btn btn-secondary btn-large">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polygon points="10 8 16 12 10 16 10 8"/>
+                        </svg>
+                        Watch Demo
+                    </button>
+                </div>
+                
+                <!-- Stats -->
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value">98%</div>
+                        <div class="stat-label">Accuracy</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">5 Min</div>
+                        <div class="stat-label">Avg. Assessment</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">AI</div>
+                        <div class="stat-label">Powered</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Floating Cards Animation -->
+            <div class="floating-cards">
+                <div class="float-card card-1">
+                    <div class="card-icon">📄</div>
+                    <div class="card-text">Resume Analysis</div>
+                </div>
+                <div class="float-card card-2">
+                    <div class="card-icon">🧠</div>
+                    <div class="card-text">AI Quiz Generation</div>
+                </div>
+                <div class="float-card card-3">
+                    <div class="card-icon">💻</div>
+                    <div class="card-text">Code Sandbox</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- How It Works -->
+        <section id="how-it-works" class="section">
+            <div class="section-header">
+                <h2 class="section-title">How It <span class="gradient-text">Works</span></h2>
+                <p class="section-subtitle">Five simple steps to comprehensive candidate evaluation</p>
+            </div>
+            
+            <div class="steps-container">
+                <div class="step-card glass-effect" data-step="1">
+                    <div class="step-number">01</div>
+                    <div class="step-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                        </svg>
+                    </div>
+                    <h3 class="step-title">Upload Resume</h3>
+                    <p class="step-description">Upload PDF or DOCX resume. Our system extracts and normalizes the text with industry-grade parsing.</p>
+                </div>
+                
+                <div class="step-card glass-effect" data-step="2">
+                    <div class="step-number">02</div>
+                    <div class="step-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M12 1v6m0 6v6M5.64 5.64l4.24 4.24m4.24 4.24l4.24 4.24M1 12h6m6 0h6M5.64 18.36l4.24-4.24m4.24-4.24l4.24-4.24"/>
+                        </svg>
+                    </div>
+                    <h3 class="step-title">AI Skill Analysis</h3>
+                    <p class="step-description">Gemini AI extracts skills with confidence scoring and generates a comprehensive skill map.</p>
+                </div>
+                
+                <div class="step-card glass-effect" data-step="3">
+                    <div class="step-number">03</div>
+                    <div class="step-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 11l3 3L22 4"/>
+                            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+                        </svg>
+                    </div>
+                    <h3 class="step-title">Adaptive Quiz</h3>
+                    <p class="step-description">Dynamic questions based on resume skills. MCQ and short-answer format with intelligent evaluation.</p>
+                </div>
+                
+                <div class="step-card glass-effect" data-step="4">
+                    <div class="step-number">04</div>
+                    <div class="step-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="16 18 22 12 16 6"/>
+                            <polyline points="8 6 2 12 8 18"/>
+                        </svg>
+                    </div>
+                    <h3 class="step-title">Coding Challenge</h3>
+                    <p class="step-description">Sandboxed code execution with test cases. Safe, isolated environment with CPU and memory limits.</p>
+                </div>
+                
+                <div class="step-card glass-effect" data-step="5">
+                    <div class="step-number">05</div>
+                    <div class="step-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                            <polyline points="10 9 9 9 8 9"/>
+                        </svg>
+                    </div>
+                    <h3 class="step-title">Final Report</h3>
+                    <p class="step-description">Learning-focused feedback with skill gaps, improvement tips, and personalized roadmap.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Features Section -->
+        <section id="features" class="section">
+            <div class="section-header">
+                <h2 class="section-title">Powerful <span class="gradient-text">Features</span></h2>
+                <p class="section-subtitle">Everything you need for modern candidate assessment</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card glass-effect">
+                    <div class="feature-icon gradient-bg-1">🤖</div>
+                    <h3 class="feature-title">AI-Powered</h3>
+                    <p class="feature-description">Google Gemini integration for intelligent skill extraction and question generation.</p>
+                </div>
+                
+                <div class="feature-card glass-effect">
+                    <div class="feature-icon gradient-bg-2">🔒</div>
+                    <h3 class="feature-title">Secure Sandbox</h3>
+                    <p class="feature-description">Isolated code execution with no internet, filesystem, or system access.</p>
+                </div>
+                
+                <div class="feature-card glass-effect">
+                    <div class="feature-icon gradient-bg-3">⚡</div>
+                    <h3 class="feature-title">Lightning Fast</h3>
+                    <p class="feature-description">FastAPI backend with async processing for real-time assessment results.</p>
+                </div>
+                
+                <div class="feature-card glass-effect">
+                    <div class="feature-icon gradient-bg-4">📊</div>
+                    <h3 class="feature-title">Smart Analytics</h3>
+                    <p class="feature-description">Comprehensive skill gap analysis and learning recommendations.</p>
+                </div>
+                
+                <div class="feature-card glass-effect">
+                    <div class="feature-icon gradient-bg-5">🎯</div>
+                    <h3 class="feature-title">Adaptive Testing</h3>
+                    <p class="feature-description">Questions dynamically generated based on candidate's actual skills.</p>
+                </div>
+                
+                <div class="feature-card glass-effect">
+                    <div class="feature-icon gradient-bg-6">📝</div>
+                    <h3 class="feature-title">Multi-Format</h3>
+                    <p class="feature-description">Support for PDF and DOCX resumes with intelligent text extraction.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>SkillAssess</h3>
+                    <p>AI-Powered Candidate Evaluation</p>
+                    <p class="footer-tagline">Built by a team that cares about clarity, speed, and fair assessment.</p>
+                    <div class="footer-badges">
+                        <span class="footer-badge">AI-Driven</span>
+                        <span class="footer-badge">Secure</span>
+                        <span class="footer-badge">Fast</span>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4 class="footer-heading">Product</h4>
+                        <a href="#features">Features</a>
+                        <a href="#how-it-works">How It Works</a>
+                        <a href="#pricing">Pricing</a>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4 class="footer-heading">Legal</h4>
+                        <a href="#privacy">Privacy</a>
+                        <a href="#terms">Terms</a>
+                        <a href="#security">Security</a>
+                    </div>
+                </div>
+
+                <div class="footer-team">
+                    <h4 class="footer-heading">Project Associates</h4>
+                    <ul class="team-list">
+                        <li>Shaik Irfan Ahamed</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 SkillAssess.</p>
+                <div class="footer-bottom-links">
+                    <span>Made in CSE (AI & ML)</span>
+                    <span class="dot-sep">•</span>
+                    <span>Version 1.0</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Assessment Modal -->
+    <div id="assessment-modal" class="modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content glass-effect">
+            <button class="modal-close" id="close-modal">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+            
+            <div class="modal-header">
+                <h2>Upload Your Resume</h2>
+                <p>Supported formats: PDF, DOCX (Max 10MB)</p>
+            </div>
+            
+            <div class="upload-area" id="upload-area">
+                <div class="upload-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                    </svg>
+                </div>
+                <h3>Drag & Drop Your Resume</h3>
+                <p>or click to browse</p>
+                <input type="file" id="file-input" accept=".pdf,.docx" hidden>
+            </div>
+            
+            <div class="upload-progress hidden" id="upload-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <p class="progress-text" id="progress-text">Uploading...</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="js/three-background.js?v=2.0"></script>
+    <script src="js/animations.js?v=2.0"></script>
+
+    <script src="js/coding-ide.js?v=1.0"></script>
+    <script src="js/app.js?v=2.0"></script>
+</body>
+</html>
