@@ -1,4 +1,4 @@
-# 🏗️ System Architecture
+# Bridge AI Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -145,7 +145,7 @@ showConnectionStatus(connected, data)
 ## 🗂️ File Organization
 
 ```
-ttt/
+bridge-ai/
 ├── app/                          # Backend
 │   ├── api/
 │   │   └── v1/

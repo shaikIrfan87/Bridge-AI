@@ -141,7 +141,7 @@ def print_startup_banner():
     """Print startup banner."""
     banner = """
 ==========================================
-Starting Skill Assessment System...
+Starting Bridge AI...
 ==========================================
 """
     print(banner)

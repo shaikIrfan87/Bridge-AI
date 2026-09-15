@@ -30,5 +30,13 @@ temp/
 tmp/
 *.log
 
+# Local application state and generated artifacts
+*.db
+*.db-shm
+*.db-wal
+*.zip
+.pytest_cache/
+.jetro/
+
 # Uploads (for development - production uses cloud storage)
 uploads/

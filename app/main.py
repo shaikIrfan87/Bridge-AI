@@ -14,7 +14,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
 )
-logger = logging.getLogger("clinxai.core")
+logger = logging.getLogger("bridge_ai.core")
 
 def create_application() -> FastAPI:
     """
@@ -29,7 +29,7 @@ def create_application() -> FastAPI:
     # 🏁 Startup: Environment Sanitizer
     @app.on_event("startup")
     async def on_startup():
-        logger.info("Initializing ClinXAI Self-Healing Engine...")
+        logger.info("Initializing Bridge AI...")
         try:
             # Ensure upload directories exist
             upload_dir = FileStorage.get_upload_dir()

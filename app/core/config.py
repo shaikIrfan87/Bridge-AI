@@ -43,7 +43,7 @@ class Settings(BaseSettings):
     MAX_CODE_OUTPUT_LENGTH: int = 5000
     
     # Application Metadata
-    APP_NAME: str = "Skill Assessment System"
+    APP_NAME: str = "Bridge AI"
     APP_VERSION: str = "1.0.0"
     
     class Config:
